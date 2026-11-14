@@ -1,10 +1,10 @@
 import type { LucideIcon } from 'lucide-react'
-import { PanelsTopLeft, Smartphone, ShoppingBag, LayoutTemplate, Workflow, BrainCircuit } from 'lucide-react'
+import { PanelsTopLeft, Smartphone, ShoppingBag, LayoutTemplate, Database, BrainCircuit } from 'lucide-react'
 
 export const services: { title: string; description: string; icon: LucideIcon }[] = [
   { title: 'المواقع والمنصات الرقمية', description: 'تصميم وتطوير مواقع الشركات والمتاجر والمنصات بواجهات واضحة ومتجاوبة.', icon: LayoutTemplate },
   { title: 'التطبيقات الرقمية', description: 'تصور تجارب تطبيقية للجوال والويب، مع تحديد الوظائف والنطاق المناسب للمشروع.', icon: Smartphone },
-  { title: 'الأتمتة والتكاملات', description: 'ربط الأدوات وتنظيم المهام الرقمية المتكررة لتسهيل تدفق العمل.', icon: Workflow },
+  { title: 'أنظمة', description: 'أنظمة رقمية لتنظيم العمليات والمهام وإدارة المعلومات وفق احتياج المشروع.', icon: Database },
   { title: 'حلول الذكاء الاصطناعي', description: 'دراسة فرص توظيف الذكاء الاصطناعي في تجربة المشروع وخدماته الرقمية.', icon: BrainCircuit },
   { title: 'تجربة المستخدم والواجهات', description: 'تنظيم المحتوى ورحلات الاستخدام لتكون التجربة مفهومة وسهلة.', icon: PanelsTopLeft },
   { title: 'التجارة الرقمية', description: 'تجارب عرض وطلب رقمية للمنتجات والخدمات وفق متطلبات النشاط.', icon: ShoppingBag },

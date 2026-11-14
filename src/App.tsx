@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route, Link, Navigate, useLocation, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, ArrowUpLeft, X, Check, ChevronDown, Compass, Lightbulb, Code2, Layers3, Quote, Clock3, ExternalLink, Mail, MessageCircle } from 'lucide-react'
-import { Brand, SiteLayout } from './components/SiteLayout'
+import { Routes, Route, Link, Navigate, useSearchParams } from 'react-router-dom'
+import { ArrowLeft, ArrowUpLeft, X, Check, ChevronDown, Compass, Lightbulb, Code2, Layers3, Quote, ExternalLink, Mail, MessageCircle } from 'lucide-react'
+import { SiteLayout } from './components/SiteLayout'
 import { PageIntro, SectionHeading, CTASection, Breadcrumb } from './components/Shared'
 import { ProjectCard } from './components/ProjectCard'
-import { ProjectCostEstimator } from './components/ProjectCostEstimator'
+import { WebsitePackageCards } from './components/WebsitePackageCards'
 import { SocialLinks } from './components/SocialLinks'
 import { services, serviceProcess, digitalSolutionJourney, websitePackages } from './data/services'
 import { portfolioProjects } from './data/projects'
-import { articles } from './data/articles'
 import { faqs } from './data/faq'
 import { companyContact } from './data/contact'
-import type { Project, Article } from './types'
+import type { Project } from './types'
 
 function usePageMeta(title: string, description: string) {
   useEffect(() => { document.title = `${title} | NoqtaCode`; const meta = document.querySelector('meta[name="description"]'); if (meta) meta.setAttribute('content', description) }, [title, description])
@@ -62,8 +61,7 @@ function Home() {
   return <>
     <section className="hero container">
       <div className="hero-copy">
-        <div className="hero-brandline"><Brand /><span>حلول رقمية وتجارب تقنية</span></div>
-        <div className="eyebrow"><span /> من نقطة البداية إلى حضور رقمي أوضح</div>
+        <div className="hero-brandline"><span>حلول رقمية وتجارب تقنية</span></div>
         <h1>من نقطة البداية،<br />نصنع <em>حلولًا رقمية</em><br />تصنع الفرق.</h1>
         <p className="hero-lede">نحوّل احتياج مشروعك إلى حل رقمي واضح وعملي. قد يبدأ بموقع إلكتروني، أو يمتد إلى منصة أو تجربة رقمية تناسب أهدافك.</p>
         <div className="hero-actions">
@@ -83,10 +81,15 @@ function Home() {
       </div>
     </section>
     <section className="trust-strip"><div className="container trust-inner"><span>نبني الحلول الرقمية على</span><b>وضوح الاحتياج</b><i /><b>جودة التنفيذ</b><i /><b>اهتمام التفاصيل</b><i /><b>قابلية التطور</b></div></section>
+    <section id="home-packages" className="packages-section home-packages-section">
+      <div className="container">
+        <SectionHeading eyebrow="خدمة المواقع" title="باقات تناسب احتياجك" text="تصميم وتطوير المواقع إحدى حلولنا الرقمية. اختر نقطة البداية الأقرب لمشروعك، وتواصل معنا لمناقشة التفاصيل قبل التنفيذ." link={{ to: '/services#packages', label: 'تفاصيل الباقات' }} />
+        <WebsitePackageCards />
+      </div>
+    </section>
     <section className="section container services-preview"><SectionHeading eyebrow="حلولنا" title="تقنية تخدم فكرتك" text="نختار شكل الحل بحسب الهدف؛ من موقع ويب متكامل إلى تطبيق أو تكامل رقمي عند الحاجة." link={{ to: '/services', label: 'استكشف الحلول' }} /><div className="service-grid home-service-grid">{services.slice(0, 3).map((service, i) => { const Icon = service.icon; return <article className="service-card" key={service.title}><div className="service-icon"><Icon size={20} /></div><span className="service-number">0{i + 1}</span><h3>{service.title}</h3><p>{service.description}</p><Link to="/services" aria-label={`اعرف أكثر عن ${service.title}`} className="card-arrow"><ArrowUpLeft size={17} /></Link></article> })}</div></section>
     <section className="section method-section journey-section"><div className="container"><SectionHeading eyebrow="منهجنا" title="كيف تتحول فكرتك إلى حل رقمي؟" text="من فهم الاحتياج إلى التسليم أو الإطلاق، بخطوات واضحة ومخرجات ملموسة تناسب طبيعة كل حل." /><DigitalSolutionJourney /></div></section>
     <section className="section why-section"><div className="container why-grid"><div><div className="eyebrow"><span /> لماذا NoqtaCode</div><h2>التفاصيل الصغيرة<br />تصنع <em>فرقًا كبيرًا.</em></h2><p>نعطي كل خطوة حقها، من وضوح الفكرة إلى آخر لمسة في التجربة. نبني حلولًا رقمية تساعدك على خدمة جمهورك وتحقيق أهدافك.</p><Link className="text-link" to="/about">تعرّف علينا <ArrowUpLeft size={16} /></Link></div><div className="why-points">{['نبدأ من أهداف مشروعك، لا من قالب جاهز.', 'نوازن بين الجمال وسهولة الاستخدام.', 'نبني أساسًا مرنًا يمكن أن ينمو معك.', 'نهتم بالتفاصيل التي تجعل التجربة متماسكة.'].map((x, i) => <div className="why-point" key={x}><span>0{i + 1}</span><p>{x}</p><Check size={16} /></div>)}</div></div></section>
-    <section className="section container"><div className="home-blog-callout"><div><div className="eyebrow"><span /> من المدونة</div><h2>أفكار تساعدك على<br />اتخاذ قرار أفضل.</h2><p>ملاحظات قصيرة حول الحلول الرقمية والتصميم وتجربة المستخدم.</p></div><div className="home-article">{articles.slice(0, 2).map(a => <Link to={`/blog#${a.id}`} key={a.id}><span>{a.category}</span><h3>{a.title}</h3><small>{a.readTime} <ArrowUpLeft size={13} /></small></Link>)}</div></div></section>
     <CTASection />
   </>
 }
@@ -136,19 +139,8 @@ function ServicesPage() {
     <section id="packages" className="packages-section">
       <div className="container">
         <SectionHeading eyebrow="خدمة المواقع الإلكترونية" title="باقات تصميم وتطوير المواقع" text="هذه الباقات خاصة ببناء المواقع، وهي إحدى حلولنا الرقمية. أما المنصات والتطبيقات والتكاملات، فيُحدَّد نطاقها بحسب احتياج المشروع." link={{ to: '/services#digital-solutions', label: 'استكشف بقية حلولنا الرقمية' }} />
-        <div className="package-grid">{websitePackages.map((plan) => <article key={plan.id} className={`package-card ${plan.featured ? 'package-featured' : ''}`}>
-          {plan.featured && <span className="package-badge">الخيار المتوازن</span>}
-          <div className="package-name">{plan.name}</div>
-          <h3>{plan.title}</h3>
-          <p className="package-description">{plan.description}</p>
-          <div className="package-price"><strong>{plan.price.toLocaleString('en-US')}</strong><span>ر.س</span><small>سعر الباقة</small></div>
-          <div className="package-pages"><Layers3 size={15} />{plan.pages}</div>
-          <ul>{plan.features.map((feature) => <li key={feature}><Check size={15} />{feature}</li>)}</ul>
-          {plan.note && <div className="package-note">{plan.note}</div>}
-          <Link className={plan.featured ? 'button button-primary package-cta' : 'button button-outline package-cta'} to={`/contact?package=${plan.id}`}>استفسر عن الباقة <ArrowUpLeft size={16} /></Link>
-        </article>)}</div>
-        <div className="package-disclaimer"><span className="demo-dot" /><p><b>ملاحظة قبل الاعتماد:</b> الباقات والأسعار هنا تصور ديمو أولي. الدومين والاستضافة مشمولان في كل باقة، وتُحدد مدة التغطية والتجديد في العرض النهائي. الحملة في باقة 1,500 ر.س تشمل الإعداد والإدارة لشهر، أما ميزانية الإعلان المدفوعة للمنصة فتُحسب بشكل منفصل. المتاجر والتكاملات الخاصة تُسعّر بعد تحديد نطاقها.</p></div>
-        <Link to="/estimator" className="estimate-inline-link">تحتاج إلى تصور مبدئي حسب تفاصيل مشروعك؟ <b>قدّر تكلفة المشروع <ArrowUpLeft size={15} /></b></Link>
+        <WebsitePackageCards />
+        <div className="package-disclaimer"><span className="demo-dot" /><p><b>تفاصيل الباقات:</b> الأسعار المعروضة معتمدة. الدومين والاستضافة مشمولان في كل باقة، وتُحدد مدة التغطية والتجديد عند الاتفاق. حملة باقة 1,500 ر.س تشمل الإعداد والإدارة لمدة شهر، ولا تشمل ميزانية الإعلان المدفوعة للمنصة. المتاجر والتكاملات الإضافية تُحدد بحسب نطاق المشروع.</p></div>
       </div>
     </section>
     <section className="service-outcomes-section">
@@ -200,24 +192,6 @@ function ContactPage() {
   return <><Breadcrumb current="تواصل معنا" /><PageIntro eyebrow="خلّنا نبدأ" title={<>حدثنا عن<br /><em>فكرتك القادمة.</em></>} text="اختر وسيلة التواصل المناسبة، وابدأ الحديث معنا عن مشروعك أو استفسارك." /><section className="section container contact-layout"><aside className="contact-aside"><div className="contact-aside-mark"><span>نقطة البداية</span><ArrowUpLeft size={25} /></div><h2>خطوتك الأولى<br />تبدأ من <em>هنا.</em></h2><p>تواصل معنا مباشرة عبر واتساب أو البريد الإلكتروني، وسنكون سعداء بالتعرف على فكرتك.</p><div className="contact-aside-note"><span className="demo-dot" />تُرسل رسالتك بعد مراجعتها وتأكيدها في تطبيق التواصل.</div></aside><div className="contact-form contact-channels"><div className="form-heading"><h2>تواصل مباشرة</h2><span>اختر القناة المناسبة لك</span></div>{selectedPackage && <div className="selected-package-note"><span>استفسارك عن الباقة</span><b>{selectedPackage.name} · {selectedPackage.price.toLocaleString('en-US')} ر.س</b><small>{selectedPackage.title} — {selectedPackage.pages}</small></div>}{configuredBrief && <div className="selected-config-note"><span>تفاصيل التصور الأولي</span><b>{configuredType}</b><p>{configuredBrief}</p></div>}<div className="contact-channel-list"><a className="contact-channel" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="تواصل مع NoqtaCode عبر واتساب"><span className="contact-channel-icon"><MessageCircle size={20} /></span><span className="contact-channel-copy"><small>واتساب الشركة</small><strong>ابدأ محادثة</strong><span>افتح محادثة برسالة جاهزة</span></span><ArrowUpLeft size={17} /></a><a className="contact-channel" href={emailUrl}><span className="contact-channel-icon"><Mail size={20} /></span><span className="contact-channel-copy"><small>البريد الإلكتروني</small><strong dir="ltr">{companyContact.email}</strong><span>افتح رسالة جديدة إلى بريدنا</span></span><ArrowUpLeft size={17} /></a></div><p className="contact-channel-note">لن تُرسل أي رسالة تلقائيًا. سينقلك الرابط إلى واتساب أو تطبيق البريد لتراجع رسالتك وترسلها بنفسك.</p><div className="contact-social-block"><h3>تابعنا على منصات التواصل</h3><SocialLinks className="contact-social-links" /></div></div></section></>
 }
 
-function EstimatorPage() {
-  usePageMeta('مقدّر تكلفة المشروع', 'قدّر نطاق تكلفة موقعك بحسب نوعه وعدد صفحاته والميزات المطلوبة.')
-  return <><Breadcrumb current="مقدّر التكلفة" /><PageIntro eyebrow="تقدير تكلفة المشروع" title={<>تصور مبدئي<br /><em>لتكلفة مشروعك.</em></>} text="حدد نوع الموقع والصفحات والميزات لتحصل على نطاق سعري مبني على أسعارنا المعتمدة، ويساعدك في توضيح احتياجك." /><ProjectCostEstimator /></>
-}
-
-function ArticleModal({ article, close }: { article: Article | null; close: () => void }) {
-  useEffect(() => { if (!article) return; const key = (e: KeyboardEvent) => { if (e.key === 'Escape') close() }; document.addEventListener('keydown', key); return () => document.removeEventListener('keydown', key) }, [article, close])
-  if (!article) return null
-  return <div className="modal-backdrop" onMouseDown={e => { if (e.target === e.currentTarget) close() }}><article className="modal article-modal" role="dialog" aria-modal="true" aria-labelledby="article-title"><button className="modal-close" onClick={close} aria-label="إغلاق المقال"><X size={19} /></button><span className="article-category">{article.category}</span><h2 id="article-title">{article.title}</h2><div className="article-meta"><Clock3 size={14} />{article.readTime}</div><div className="article-body">{article.body.map(p => <p key={p}>{p}</p>)}</div><button className="button button-outline" onClick={close}>إغلاق المقال <ArrowLeft size={16} /></button></article></div>
-}
-
-function BlogPage() {
-  usePageMeta('المدونة', 'مقالات حول الحلول الرقمية وتجربة المستخدم والأداء.')
-  const [active, setActive] = useState<Article | null>(null); const location = useLocation()
-  useEffect(() => { const id = location.hash.slice(1); if (id) { const item = articles.find(a => a.id === id); if (item) setActive(item) } }, [location.hash])
-  return <><Breadcrumb current="المدونة" /><PageIntro eyebrow="ملاحظات رقمية" title={<>أفكار صغيرة،<br /><em>أثرها كبير.</em></>} text="مقالات حول تصميم الحلول الرقمية وتجربة المستخدم والأداء، لتكون بداية لمكتبة معرفة مفيدة." /><section className="section container blog-grid">{articles.map((a, i) => <article className={`article-card ${i === 0 ? 'article-featured' : ''}`} key={a.id}><div className={`article-art article-art-${i + 1}`}><span>{['01', '02', '03', '04'][i]}</span><div className="art-lines"><i /><i /><i /></div><div className="art-orb" /></div><div className="article-info"><div className="article-topline"><span className="article-category">{a.category}</span><span className="article-time"><Clock3 size={13} />{a.readTime}</span></div><h2>{a.title}</h2><p>{a.excerpt}</p><div className="article-bottom"><button className="text-link" onClick={() => setActive(a)}>اقرأ المقال <ArrowUpLeft size={15} /></button></div></div></article>)}</section><CTASection /><ArticleModal article={active} close={() => { setActive(null); if (location.hash) window.history.replaceState(null, '', '/blog') }} /></>
-}
-
 function FAQPage() {
   usePageMeta('الأسئلة الشائعة', 'إجابات عملية حول تصميم وتطوير المواقع وخطوات التعاون.')
   const [open, setOpen] = useState<number | null>(0)
@@ -230,5 +204,5 @@ function NotFound() {
 }
 
 export default function App() {
-  return <Routes><Route element={<SiteLayout />}><Route index element={<Home />} /><Route path="services" element={<ServicesPage />} /><Route path="estimator" element={<EstimatorPage />} /><Route path="portfolio" element={<PortfolioPage />} /><Route path="about" element={<AboutPage />} /><Route path="contact" element={<ContactPage />} /><Route path="blog" element={<BlogPage />} /><Route path="faq" element={<FAQPage />} /><Route path="configurator" element={<Navigate to="/services" replace />} /><Route path="*" element={<NotFound />} /></Route></Routes>
+  return <Routes><Route element={<SiteLayout />}><Route index element={<Home />} /><Route path="services" element={<ServicesPage />} /><Route path="portfolio" element={<PortfolioPage />} /><Route path="about" element={<AboutPage />} /><Route path="contact" element={<ContactPage />} /><Route path="faq" element={<FAQPage />} /><Route path="configurator" element={<Navigate to="/services" replace />} /><Route path="*" element={<NotFound />} /></Route></Routes>
 }

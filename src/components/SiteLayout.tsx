@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
-import { ArrowUp, Menu, X, ArrowUpLeft } from 'lucide-react'
+import { ArrowUp, Menu, X, ArrowUpLeft, Moon, Sun } from 'lucide-react'
 import { SocialLinks } from './SocialLinks'
 
 const links = [
   { to: '/', label: 'الرئيسية', end: true }, { to: '/services', label: 'خدماتنا' },
-  { to: '/estimator', label: 'مقدّر التكلفة' },
   { to: '/portfolio', label: 'أعمالنا' }, { to: '/about', label: 'من نحن' },
-  { to: '/blog', label: 'المدونة' }, { to: '/faq', label: 'الأسئلة الشائعة' },
+  { to: '/#home-packages', label: 'الباقات', end: true }, { to: '/faq', label: 'الأسئلة الشائعة' },
 ]
 
 export function Brand({ light = false }: { light?: boolean }) {
@@ -20,9 +19,27 @@ export function Brand({ light = false }: { light?: boolean }) {
 export function SiteLayout() {
   const [open, setOpen] = useState(false)
   const [showTop, setShowTop] = useState(false)
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const savedTheme = window.localStorage.getItem('noqtacode-theme')
+    return savedTheme === 'dark' ? 'dark' : 'light'
+  })
   const location = useLocation()
 
-  useEffect(() => { setOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }, [location.pathname])
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#f5f8f6' : '#080a0d')
+    window.localStorage.setItem('noqtacode-theme', theme)
+  }, [theme])
+  useEffect(() => {
+    setOpen(false)
+    const targetId = decodeURIComponent(location.hash.slice(1))
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+    if (targetId) {
+      requestAnimationFrame(() => document.getElementById(targetId)?.scrollIntoView({ behavior, block: 'start' }))
+    } else {
+      window.scrollTo({ top: 0, behavior })
+    }
+  }, [location.pathname, location.hash])
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 500)
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -38,7 +55,8 @@ export function SiteLayout() {
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
         <nav id="main-nav" className={`main-nav ${open ? 'is-open' : ''}`} aria-label="التنقل الرئيسي">
-          {links.map(({ to, label, end }) => <NavLink key={to} to={to} end={end} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>{label}</NavLink>)}
+          {links.map(({ to, label, end }) => <NavLink key={to} to={to} end={end} className={({ isActive }) => isActive && !to.includes('#') ? 'nav-link active' : 'nav-link'}>{label}</NavLink>)}
+          <button className="theme-toggle" type="button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label={theme === 'light' ? 'التبديل إلى الوضع الداكن' : 'التبديل إلى الوضع الفاتح'} title={theme === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح'}>{theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}<span>{theme === 'light' ? 'داكن' : 'فاتح'}</span></button>
           <Link className="nav-cta" to="/contact">ابدأ مشروعك <ArrowUpLeft size={15} /></Link>
         </nav>
       </div>
