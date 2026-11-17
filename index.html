@@ -3,9 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f5f8f6" />
+    <meta name="theme-color" content="#f6f9f7" />
     <meta name="description" content="NoqtaCode تبني حلولًا رقمية وتجارب تقنية تساعد المشاريع على التواصل والنمو، من المواقع إلى المنصات والتكاملات." />
     <title>NoqtaCode — حلول رقمية تصنع الفرق</title>
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('noqtacode-theme');
+          var theme = saved === 'dark' ? 'dark' : 'light';
+          document.documentElement.dataset.theme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f6f9f7' : '#090d0b');
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
